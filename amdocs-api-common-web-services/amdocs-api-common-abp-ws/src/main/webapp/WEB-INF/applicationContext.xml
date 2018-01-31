@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jee="http://www.springframework.org/schema/jee" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:jms="http://www.springframework.org/schema/jms" xmlns:ws="http://jax-ws.dev.java.net/spring/core"
+	xmlns:wss="http://jax-ws.dev.java.net/spring/servlet" xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="
+		  http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd
+          http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+          http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+          http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+          http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-4.0.xsd
+          http://www.springframework.org/schema/jms http://www.springframework.org/schema/jms/spring-jms-4.0.xsd
+          http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+          http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.0.xsd
+          http://jax-ws.dev.java.net/spring/core http://jax-ws.java.net/spring/core.xsd
+          http://jax-ws.dev.java.net/spring/servlet http://jax-ws.java.net/spring/servlet.xsd">
+	
+	<!-- ******************* -->
+	<!-- Importing Services -->
+	<!-- ******************* -->
+	<import resource="remoteServicesContext.xml" />
+	
+	<!-- ******************* -->
+	<!-- ASM LOGIN SERVICES  -->
+	<!-- ******************* -->
+	<bean id="ASM3LoginServices" lazy-init="true"
+		class="com.practia.abp.ejb.access.ASM3SimpleRemoteStatelessSessionProxyFactoryBean">
+		<property name="jndiName" value="${asm.jndi.path}" />
+		<property name="jndiTemplate" ref="ASM3JndiTemplate" />
+		<property name="businessInterface"
+			value="amdocs.uams.sessions.interfaces.api.ASM3LoginServices" />
+		<property name="homeInterface"
+			value="amdocs.uams.sessions.interfaces.home.ASM3LoginServicesHome" />
+	</bean>
+	
+	<!-- templates -->
+	<bean id="ASM3JndiTemplate" class="com.practia.abp.jndi.ASM3JndiTemplate">
+		<property name="environmentServices" ref="ASM3Environment" />
+	</bean>
+
+	<bean id="ASM3Environment" class="com.practia.asm.core.enviroment.impl.ASM3Environment">
+		<property name="configuration" ref="ASM3Properties" />
+	</bean>
+	
+	<bean id="ASM3Properties" class="com.practia.asm.core.configuration.properties.ASM3Properties">
+		<property name="configuration" ref="propertiesConfiguration" />
+		<property name="fileChangedReloadingStrategy" ref="reloadingStrategy" />
+		<property name="crypter" ref="crypter" />
+	</bean>
+
+	<bean id="ABPJndiTemplate" class="com.practia.abp.jndi.ABPJndiTemplate">
+	</bean>
+	<!-- encryption utility -->
+	<bean id="crypter" class="com.practia.asm.core.encryption.EncryptionUtility" />
+
+	<!-- Strategy for reloading the properties if any change exist -->
+	<bean id="reloadingStrategy"
+		class="org.apache.commons.configuration.reloading.FileChangedReloadingStrategy">
+		<property name="refreshDelay" value="60000" />
+	</bean>
+
+	<bean id="propertiesConfiguration"
+		class="org.apache.commons.configuration.PropertiesConfiguration">
+		<constructor-arg>
+			<value>file:///#{systemProperties._ABP_WEB_SERVICES_CONFIG}
+			</value>
+		</constructor-arg>
+	</bean>
+
+	<bean id="propertyConfigurer"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="location">
+			<value>file:///#{systemProperties._ABP_WEB_SERVICES_CONFIG}
+			</value>
+		</property>
+		<property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE" />
+	</bean>
+	
+	<bean id="ASM3User" class="com.practia.asm.core.user.ASM3User">
+		<property name="configuration" ref="credentialsProperties" />
+	</bean>
+	
+	<bean id="ticketManagerImpl" class="com.practia.asm.core.user.ticket.manager.impl.ASM3TicketManagerImpl">
+		<property name="ASM3LoginServices" ref="ASM3LoginServices" />
+		<property name="configuration" ref="loginServicesProperties" />
+		<property name="webContextRoot" ref="abpKey" />
+	</bean>
+
+	<util:constant id="abp" static-field="com.practia.asm.core.user.context.ContextRoot.ABP" />
+	<bean id="abpKey" factory-bean="abp" factory-method="value" />
+	
+	<bean id="ASM3UserServices" class="com.practia.asm.core.user.services.ASM3UserServices">
+		<property name="asm3User" ref="ASM3User" />
+		<property name="webContextRoot" ref="abpKey" />
+	</bean>
+
+	<!-- enviroment map reference -->
+	<bean id="commonConfigurationProperties" class="com.practia.asm.core.configuration.properties.CommonConfigurationProperties">
+		<property name="configuration" ref="propertiesConfiguration" />
+		<property name="fileChangedReloadingStrategy" ref="reloadingStrategy" />
+	</bean>
+
+	<bean id="ticketProperties" class="com.practia.asm.core.configuration.properties.TicketProperties">
+		<property name="configuration" ref="propertiesConfiguration" />
+		<property name="fileChangedReloadingStrategy" ref="reloadingStrategy" />
+	</bean>
+
+	<bean id="credentialsProperties" class="com.practia.asm.core.configuration.properties.CredentialsProperties">
+		<property name="configuration" ref="propertiesConfiguration" />
+		<property name="fileChangedReloadingStrategy" ref="reloadingStrategy" />
+	</bean>
+		
+	<bean id="loginServicesProperties" class="com.practia.asm.core.configuration.properties.LoginServicesProperties">
+		<property name="configuration" ref="propertiesConfiguration" />
+		<property name="fileChangedReloadingStrategy" ref="reloadingStrategy" />
+	</bean>
+	
+	<bean id="ticketEnvironment" class="com.practia.asm.core.enviroment.impl.TicketEnvironment">
+		<property name="configuration" ref="ticketProperties" />
+		<property name="ASM3UserServices" ref="ASM3UserServices" />
+		
+	</bean>
+
+	<bean id="credentialsEnvironment" class="com.practia.asm.core.enviroment.impl.CredentialsEnvironment">
+		<property name="configuration" ref="credentialsProperties" />
+		<property name="userServices" ref="ASM3UserServices" />
+	</bean>
+	
+	<util:constant id="ticket" static-field="com.practia.asm.core.enviroment.EnvironmentType.TICKET" />
+	<util:constant id="credentials" static-field="com.practia.asm.core.enviroment.EnvironmentType.CRED" />
+	
+<!-- 	<bean id="environmentTicket" factory-bean="ticket" factory-method="key" />
+	<bean id="environmentCredentials" factory-bean="credentials" factory-method="key" />
+	
+
+	<bean id="enviromentTypeTicket" class="java.lang.String"  factory-method="valueOf">
+		<constructor-arg ref="environmentTicket"/>
+	</bean>
+	<bean id="enviromentTypeCredentials" class="java.lang.String"  factory-method="valueOf">
+		<constructor-arg ref="environmentCredentials"/>
+	</bean> -->
+	<util:map id="environmentMap" map-class="java.util.concurrent.ConcurrentHashMap">
+		<entry key="credentials" value-ref="credentialsEnvironment" />
+		<entry key="ticket" value-ref="ticketEnvironment" />
+	</util:map>
+
+	<bean id="connectionServices"
+		class="com.practia.asm.core.connection.services.impl.ConnectionServicesImpl">
+		<property name="configuration" ref="commonConfigurationProperties" />
+		<property name="environmentServices" ref="environmentMap" />
+	</bean>
+
+	<bean id="ASM3PropertiesConfiguration"
+		class="com.practia.asm.core.configuration.ApplicationProperties">
+		<property name="configuration" ref="propertiesConfiguration" />
+		<property name="fileChangedReloadingStrategy" ref="reloadingStrategy" />
+	</bean>
+	<!-- job config -->
+	<bean id="jobFactoryBean"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean"
+		p:targetObject-ref="ticketManagerImpl" p:targetMethod="relogin" />
+
+	<!-- triggered acording to cron expression
+	every minute = 	0 0/1 * 1/1 * ? *
+	every hour =   0 0 0/1 * * ?
+	-->
+	<bean id="triggerFactoryBean"
+		class="org.springframework.scheduling.quartz.CronTriggerFactoryBean"
+		p:jobDetail-ref="jobFactoryBean"
+		p:cronExpression="0 0 0/22 1/1 * ? *" 
+		
+		/>
+<!-- p:startDelay="300000" / p:cronExpression="0 0 0/1 * * ?	"-->
+	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean"
+		p:triggers-ref="triggerFactoryBean" />
+
+	<!-- BUILDERS -->
+<!-- <bean>
+		<property name="paymentSearchResultsScreenDt">
+			<value type="java.lang.Class">amdocs.ar.datalayer.datatypes.PaymentSearchResultsScreenDt</value>
+		</property>
+	</bean>
+	<bean>
+		<property name="paginationResultInfo">
+			<value type="java.lang.Class">amdocs.ar.datalayer.datatypes.PaginationResultInfo</value>
+		</property>
+	</bean>
+	<bean>
+		<property name="paymentListItemScreenDt">
+			<value type="java.lang.Class">amdocs.ar.datalayer.datatypes.PaymentListItemScreenDt</value>
+		</property>
+	</bean>
+	<bean>
+		<property name="paymentCustDt">
+			<value type="java.lang.Class">amdocs.ar.datalayer.datatypes.PaymentCustDt</value>
+		</property>
+	</bean>
+	<bean>
+		<property name="lockInfoDt">
+			<value type="java.lang.Class">amdocs.ar.datalayer.datatypes.LockInfoDt</value>
+		</property>
+	</bean>
+	<bean>
+		<property name="AR9CustomerInfoDt">
+			<value type="java.lang.Class">amdocs.ar.datalayer.datatypes.AR9CustomerInfoDt</value>
+		</property>
+	</bean>
+	<bean>
+		<property name="paymentCustDt">
+			<value type="java.lang.Class">amdocs.ar.datalayer.datatypes.PaymentCustDt</value>
+		</property>
+	</bean>	
+	<bean id="paymentSearchResultsScreenDtProcessor" class="com.practia.datalayer.datatypes.builder.PaymentSearchResultsScreenDtProcessor" />
+	<bean id="accountBalanceDtProcessor" class="com.practia.datalayer.datatypes.builder.AccountBalanceDtProcessor" />
+	
+	<util:map id="processorsMap" map-class="java.util.concurrent.ConcurrentHashMap">
+		<entry key="PaymentSearchResultsScreenDt" value-ref="paymentSearchResultsScreenDtProcessor" />
+		<entry key="AccountBalanceDt" value-ref="accountBalanceDtProcessor" />
+	</util:map> -->
+	
+	<bean id="builders" class="com.practia.datalayer.datatypes.builder.BuilderType" />
+	
+	<wss:binding url="/ARBIRAccountServices">
+		<wss:service>
+			<ws:service bean="#ARBIRAccountServices" />
+		</wss:service>
+	</wss:binding>
+
+
+	<wss:binding url="/ARBIRChargeServices">
+		<wss:service>
+			<ws:service bean="#ARBIRChargeServices" />
+		</wss:service>
+	</wss:binding>
+
+	<wss:binding url="/DocumentServices">
+		<wss:service>
+			<ws:service bean="#DocumentServices" />
+		</wss:service>
+	</wss:binding>
+
+	<wss:binding url="/ARBIRPaymentServices">
+		<wss:service>
+			<ws:service bean="#ARBIRPaymentServices" />
+		</wss:service>
+	</wss:binding>
+
+	<wss:binding url="/ARBIRInvoiceServices">
+		<wss:service>
+			<ws:service bean="#ARBIRInvoiceServices" />
+		</wss:service>
+	</wss:binding>
+
+	<wss:binding url="/ARBIRCreditServices">
+		<wss:service>
+			<ws:service bean="#ARBIRCreditServices" />
+		</wss:service>
+	</wss:binding>
+	
+	<wss:binding url="/CM3SubscriberServices">
+		<wss:service>
+			<ws:service bean="#CM3SubscriberServices" />
+		</wss:service>
+	</wss:binding>
+
+
+	<wss:binding url="/EncryptionServices">
+		<wss:service>
+			<ws:service bean="#EncryptionServices" />
+		</wss:service>
+	</wss:binding>
+
+	<!-- encryption services -->
+	<bean id="EncryptionServices" class="com.practia.abp.services.encryption.EncryptionServices">
+	</bean>
+
+	<!-- amdocs services -->
+	<bean id="CM3SubscriberServices" class="com.practia.abp.services.cm.CM3SubscriberServices">
+		<property name="remote" ref="CM3SubscriberServicesRemote" />
+	</bean>
+	
+	<bean id="ARBIRAccountServices" class="com.practia.abp.services.ar.ARBIRAccountServices">
+		<property name="remote" ref="ARBIRAccountServicesRemote" />
+	</bean>
+
+	<bean id="DocumentServices" class="com.practia.abp.services.invoicing.DocumentServices">
+		<property name="remote" ref="DocumentServicesRemote" />
+	</bean>
+
+	<bean id="ARBIRChargeServices" class="com.practia.abp.services.ar.ARBIRChargeServices">
+		<property name="remote" ref="ARBIRChargeServicesRemote" />
+	</bean>
+
+	<bean id="ARBIRPaymentServices" class="com.practia.abp.services.ar.ARBIRPaymentServices">
+		<property name="remote" ref="ARBIRPaymentServicesRemote" />
+	</bean>
+	<bean id="ARBIRCreditServices" class="com.practia.abp.services.ar.ARBIRCreditServices">
+		<property name="remote" ref="ARBIRCreditServicesRemote" />
+	</bean>
+	<bean id="ARBIRInvoiceServices" class="com.practia.abp.services.ar.ARBIRInvoiceServices">
+		<property name="remote" ref="ARBIRInvoiceServicesRemote" />
+	</bean>
+</beans>

@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<artifactId>amdocs-api-common-ejb</artifactId>
+		<groupId>com.practia</groupId>
+		<version>1.2.8-SNAPSHOT</version>
+	</parent>
+
+
+	<artifactId>amdocs-api-common-ejb-oms</artifactId>
+	<packaging>ejb</packaging>
+
+	<name>amdocs-api-common-ejb-oms</name>
+
+	<properties>
+		<endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>javax</groupId>
+			<artifactId>javaee-api</artifactId>
+			<version>6.0</version>
+			<scope>provided</scope>
+		</dependency>
+		<!-- amdocs dependecies -->
+		<dependency>
+			<groupId>com.practia.ck</groupId>
+			<artifactId>AmdocsCore</artifactId>
+			<version>1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.practia.ck</groupId>
+			<artifactId>AmdocsAif</artifactId>
+			<version>1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.practia.ck</groupId>
+			<artifactId>AmdocsCihxCrmServicesClient</artifactId>
+			<version>1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.practia.ck</groupId>
+			<artifactId>AmdocsOrderingPortfolioClientKit</artifactId>
+			<version>2.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.practia.ck</groupId>
+			<artifactId>AmdocsPortfolioServicesCommon</artifactId>
+			<version>1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.practia.ck</groupId>
+			<artifactId>ClfyClient</artifactId>
+			<version>1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.practia.ck</groupId>
+			<artifactId>AmdocsSvcCommon</artifactId>
+			<version>1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.practia.ck</groupId>
+			<artifactId>ClfyCore</artifactId>
+			<version>1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.practia.ck</groupId>
+			<artifactId>ClfyCrmOmsApi_client_classes</artifactId>
+			<version>1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.practia.ck</groupId>
+			<artifactId>ClfyCustomerAndSupportApi_client_classes</artifactId>
+			<version>1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.practia.ck</groupId>
+			<artifactId>ClfyCustomerAndSupportApiEjbDesc</artifactId>
+			<version>1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.practia.ck</groupId>
+			<artifactId>OMSExposedServicesClientKit</artifactId>
+			<version>4.0</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.0</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.springframework/spring-core -->
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.3.2</version>
+				<configuration>
+					<source>1.7</source>
+					<target>1.7</target>
+					<!-- <executable>C:\Program Files\Java\jdk1.7.0_151\bin\javac</executable> -->
+					<compilerArguments>
+						<endorseddirs>${endorsed.dir}</endorseddirs>
+					</compilerArguments>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-ejb-plugin</artifactId>
+				<version>2.3</version>
+				<configuration>
+					<ejbVersion>3.1</ejbVersion>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<version>2.1</version>
+				<executions>
+					<execution>
+						<phase>validate</phase>
+						<goals>
+							<goal>copy</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${endorsed.dir}</outputDirectory>
+							<silent>true</silent>
+							<artifactItems>
+								<artifactItem>
+									<groupId>javax</groupId>
+									<artifactId>javaee-endorsed-api</artifactId>
+									<version>6.0</version>
+									<type>jar</type>
+								</artifactItem>
+							</artifactItems>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+	<!-- Repositorio usado para descarga de dependencias -->
+	<repositories>
+		<repository>
+			<id>pragma.cache</id>
+			<url>http://amdocs.pragmaconsultores.net:9475/archiva/repository/repocache</url>
+		</repository>
+		<repository>
+			<id>pragma.releases</id>
+			<url>http://amdocs.pragmaconsultores.net:9475/archiva/repository/amdocs</url>
+		</repository>
+		<repository>
+			<id>java.net</id>
+			<url>http://download.java.net/maven/2</url>
+		</repository>
+		<repository>
+			<id>apache.common.comfiguration</id>
+			<url> https://mvnrepository.com/artifact/commons-configuration/commons-configuration </url>
+		</repository>
+
+		<repository>
+			<id>SpringSource Enterprise Bundle Repository - External Bundle
+					Milestones</id>
+			<url>http://repository.springsource.com/maven/bundles/milestone</url>
+		</repository>
+		<repository>
+			<id>SpringSource Enterprise Bundle Repository - SpringSource Bundle
+					Releases</id>
+			<url>http://repository.springsource.com/maven/bundles/release</url>
+		</repository>
+		<repository>
+			<id>SpringSource Enterprise Bundle Repository - External Bundle
+					Releases</id>
+			<url>http://repository.springsource.com/maven/bundles/external</url>
+		</repository>
+		<repository>
+			<id>SpringSource Enterprise Bundle Repository - Library Milestones</id>
+			<url>http://repository.springsource.com/maven/libraries/milestone</url>
+		</repository>
+		<repository>
+			<id>spring-core</id>
+			<url>https://mvnrepository.com/artifact/org.springframework/spring-core</url>
+		</repository>
+		<repository>
+			<id>commons-lang3</id>
+			<url>https://mvnrepository.com/artifact/org.apache.commons/commons-lang3</url>
+		</repository>
+		
+	</repositories>
+</project>

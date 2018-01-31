@@ -1,0 +1,2 @@
+RELEASE NOTES
+v - 1.0: kick off AMSS

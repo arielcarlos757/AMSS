@@ -1,0 +1,55 @@
+<?xml version = '1.0' encoding = 'windows-1252'?>
+<weblogic-ejb-jar xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.oracle.com/weblogic/weblogic-ejb-jar http://xmlns.oracle.com/weblogic/weblogic-ejb-jar/1.1/weblogic-ejb-jar.xsd"
+	xmlns="http://xmlns.oracle.com/weblogic/weblogic-ejb-jar">
+	<!-- AR -->
+	<weblogic-enterprise-bean>
+		<ejb-name>ARBIRAccountServices_Mock</ejb-name>
+		<transaction-descriptor />
+		<enable-call-by-reference>true</enable-call-by-reference>
+		<jndi-name>amdocsBeans.ARBIRAccountServices</jndi-name>
+	</weblogic-enterprise-bean>
+	<weblogic-enterprise-bean>
+		<ejb-name>ASM3LoginServices_Mock</ejb-name>
+		<transaction-descriptor />
+		<enable-call-by-reference>true</enable-call-by-reference>
+		<jndi-name>amdocsBeans.ASM3LoginServicesHome</jndi-name>
+	</weblogic-enterprise-bean>
+	<weblogic-enterprise-bean>
+		<ejb-name>DocumentServices_Mock</ejb-name>
+		<transaction-descriptor />
+		<enable-call-by-reference>true</enable-call-by-reference>
+		<jndi-name>amdocsBeans.BL1DocumentServicesBean</jndi-name>
+	</weblogic-enterprise-bean>
+	<weblogic-enterprise-bean>
+		<ejb-name>ARBIRPaymentServicesImpl_Mock</ejb-name>
+		<transaction-descriptor />
+		<enable-call-by-reference>true</enable-call-by-reference>
+		<jndi-name>amdocsBeans.ARBIRPaymentServices</jndi-name>
+	</weblogic-enterprise-bean>
+	<weblogic-enterprise-bean>
+		<ejb-name>ARIRCreditServicesImpl</ejb-name>
+		<transaction-descriptor />
+		<enable-call-by-reference>true</enable-call-by-reference>
+		<jndi-name>amdocsBeans.ARBIRCreditServices</jndi-name>
+	</weblogic-enterprise-bean>
+	<weblogic-enterprise-bean>
+		<ejb-name>ARBIRInvoiceServicesImpl</ejb-name>
+		<transaction-descriptor />
+		<enable-call-by-reference>true</enable-call-by-reference>
+		<jndi-name>amdocsBeans.ARBIRInvoiceServices</jndi-name>
+	</weblogic-enterprise-bean>
+	<weblogic-enterprise-bean>
+		<ejb-name>ARBIRChargeServicesImpl</ejb-name>
+		<transaction-descriptor />
+		<enable-call-by-reference>true</enable-call-by-reference>
+		<jndi-name>amdocsBeans.ARBIRChargeServices</jndi-name>
+	</weblogic-enterprise-bean>
+	<!-- CM -->
+	<weblogic-enterprise-bean>
+		<ejb-name>CM3SubscriberServicesImpl</ejb-name>
+		<transaction-descriptor />
+		<enable-call-by-reference>true</enable-call-by-reference>
+		<jndi-name>amdocsBeans.CM3SubscriberServicesHome</jndi-name>
+	</weblogic-enterprise-bean>
+</weblogic-ejb-jar>

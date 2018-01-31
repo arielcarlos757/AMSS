@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	<!-- ******************************* -->
+	<!--          CM SERVICES            -->
+	<!-- ******************************* -->
+	<bean id="CM3SubscriberServicesRemote" lazy-init="true"
+		class="com.practia.abp.ejb.access.WebLogicSimpleRemoteStatelessSessionProxyFactoryBean">
+		<property name="jndiName" value="${jndi.path.CM3SubscriberServices}" />
+		<property name="jndiTemplate" ref="ABPJndiTemplate" />
+		<property name="businessInterface"
+			value="amdocs.csm3g.sessions.interfaces.api.CM3SubscriberServices" />
+		<property name="homeInterface"
+			value="amdocs.csm3g.sessions.interfaces.home.CM3SubscriberServicesHome" />
+		<property name="cacheSessionBean" value="true" />
+		<property name="resourceRef" value="false" />
+		<property name="lookupHomeOnStartup" value="false" />
+		<property name="connectionServices" ref="connectionServices" />
+	</bean>
+
+	<!-- ******************************* -->
+	<!--          AR SERVICES            -->
+	<!-- ******************************* -->
+	<bean id="ARBIRAccountServicesRemote" lazy-init="true"
+		class="com.practia.abp.ejb.access.WebLogicSimpleRemoteStatelessSessionProxyFactoryBean">
+		<property name="jndiName" value="${jndi.path.ARBIRAccountServices}" />
+		<property name="jndiTemplate" ref="ABPJndiTemplate" />
+		<property name="businessInterface"
+			value="amdocs.ar.sessions.interfaces.api.ARBIRAccountServices" />
+		<property name="homeInterface"
+			value="amdocs.ar.sessions.interfaces.home.ARBIRAccountServicesHome" />
+		<property name="cacheSessionBean" value="true" />
+		<property name="resourceRef" value="false" />
+		<property name="lookupHomeOnStartup" value="false" />
+		<property name="connectionServices" ref="connectionServices" />
+	</bean>
+
+	<bean id="ARBIRPaymentServicesRemote" lazy-init="true"
+		class="com.practia.abp.ejb.access.WebLogicSimpleRemoteStatelessSessionProxyFactoryBean">
+		<property name="jndiName" value="${jndi.path.ARBIRPaymentServices}" />
+		<property name="jndiTemplate" ref="ABPJndiTemplate" />
+		<property name="businessInterface"
+			value="amdocs.ar.sessions.interfaces.api.ARBIRPaymentServices" />
+		<property name="homeInterface"
+			value="amdocs.ar.sessions.interfaces.home.ARBIRPaymentServicesHome" />
+		<property name="cacheSessionBean" value="true" />
+		<property name="resourceRef" value="false" />
+		<property name="lookupHomeOnStartup" value="false" />
+		<property name="connectionServices" ref="connectionServices" />
+	</bean>
+
+	<bean id="ARBIRCreditServicesRemote" lazy-init="true"
+		class="com.practia.abp.ejb.access.WebLogicSimpleRemoteStatelessSessionProxyFactoryBean">
+		<property name="jndiName" value="${jndi.path.ARBIRCreditServices}" />
+		<property name="jndiTemplate" ref="ABPJndiTemplate" />
+		<property name="businessInterface"
+			value="amdocs.ar.sessions.interfaces.api.ARBIRCreditServices" />
+		<property name="homeInterface"
+			value="amdocs.ar.sessions.interfaces.home.ARBIRCreditServicesHome" />
+		<property name="cacheSessionBean" value="true" />
+		<property name="resourceRef" value="false" />
+		<property name="lookupHomeOnStartup" value="false" />
+		<property name="connectionServices" ref="connectionServices" />
+	</bean>
+
+	<bean id="ARBIRChargeServicesRemote" lazy-init="true"
+		class="com.practia.abp.ejb.access.WebLogicSimpleRemoteStatelessSessionProxyFactoryBean">
+		<property name="jndiName" value="${jndi.path.ARBIRChargeServices}" />
+		<property name="jndiTemplate" ref="ABPJndiTemplate" />
+		<property name="businessInterface"
+			value="amdocs.ar.sessions.interfaces.api.ARBIRChargeServices" />
+		<property name="homeInterface"
+			value="amdocs.ar.sessions.interfaces.home.ARBIRChargeServicesHome" />
+		<property name="cacheSessionBean" value="true" />
+		<property name="resourceRef" value="false" />
+		<property name="lookupHomeOnStartup" value="false" />
+		<property name="connectionServices" ref="connectionServices" />
+	</bean>
+
+	<bean id="ARBIRInvoiceServicesRemote" lazy-init="true"
+		class="com.practia.abp.ejb.access.WebLogicSimpleRemoteStatelessSessionProxyFactoryBean">
+		<property name="jndiName" value="${jndi.path.ARBIRInvoiceServices}" />
+		<property name="jndiTemplate" ref="ABPJndiTemplate" />
+		<property name="businessInterface"
+			value="amdocs.ar.sessions.interfaces.api.ARBIRInvoiceServices" />
+		<property name="homeInterface"
+			value="amdocs.ar.sessions.interfaces.home.ARBIRInvoiceServicesHome" />
+		<property name="cacheSessionBean" value="true" />
+		<property name="resourceRef" value="false" />
+		<property name="lookupHomeOnStartup" value="false" />
+		<property name="connectionServices" ref="connectionServices" />
+	</bean>
+	<!-- ******************************* -->
+	<!-- INVOICING SERVICES -->
+	<!-- ******************************* -->
+	<bean id="DocumentServicesRemote" lazy-init="true"
+		class="com.practia.abp.ejb.access.WebLogicSimpleRemoteStatelessSessionProxyFactoryBean">
+		<property name="jndiName" value="${jndi.path.DocumentServices}" />
+		<property name="jndiTemplate" ref="ABPJndiTemplate" />
+		<property name="businessInterface"
+			value="amdocs.bl3g.sessions.interfaces.api.DocumentServices" />
+		<property name="homeInterface"
+			value="amdocs.bl3g.sessions.interfaces.home.DocumentServicesHome" />
+		<property name="cacheSessionBean" value="true" />
+		<property name="resourceRef" value="false" />
+		<property name="lookupHomeOnStartup" value="false" />
+		<property name="connectionServices" ref="connectionServices" />
+	</bean>
+</beans>

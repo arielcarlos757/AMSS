@@ -1,0 +1,182 @@
+<?xml  version="1.0"  encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jee="http://www.springframework.org/schema/jee" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:jms="http://www.springframework.org/schema/jms" xmlns:ws="http://jax-ws.dev.java.net/spring/core"
+	xmlns:wss="http://jax-ws.dev.java.net/spring/servlet" xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="
+		  http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+		  http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+		  http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd
+          http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+          http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-4.0.xsd
+          http://www.springframework.org/schema/jms http://www.springframework.org/schema/jms/spring-jms-4.0.xsd
+          http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+          http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.0.xsd
+          http://jax-ws.dev.java.net/spring/core http://jax-ws.java.net/spring/core.xsd
+          http://jax-ws.dev.java.net/spring/servlet http://jax-ws.java.net/spring/servlet.xsd">
+
+	<!-- ******************* -->
+	<!-- Importing Services -->
+	<!-- ******************* -->
+	<import resource="remoteServicesContext.xml" />
+	
+	<!-- ******************* -->
+	<!-- ASM LOGIN SERVICES  -->
+	<!-- ******************* -->
+	<bean id="ASM3LoginServices" lazy-init="true"
+		class="com.practia.oms.ejb.access.ASM3SimpleRemoteStatelessSessionProxyFactoryBean">
+		<property name="jndiName" value="${asm.jndi.path}" />
+		<property name="jndiTemplate" ref="ASM3JndiTemplate" />
+		<property name="businessInterface"
+			value="amdocs.uams.sessions.interfaces.api.ASM3LoginServices" />
+		<property name="homeInterface"
+			value="amdocs.uams.sessions.interfaces.home.ASM3LoginServicesHome" />
+	</bean>
+<!-- templates -->
+	<bean id="ASM3JndiTemplate" class="com.practia.oms.jndi.ASM3JndiTemplate">
+		<property name="environmentServices" ref="ASM3Environment" />
+	</bean>
+	
+	<bean id="ASM3Environment" class="com.practia.asm.core.enviroment.impl.ASM3Environment">
+		<property name="configuration" ref="ASM3Properties" />
+	</bean>
+	
+	<bean id="ASM3Properties" class="com.practia.asm.core.configuration.properties.ASM3Properties">
+		<property name="configuration" ref="propertiesConfiguration" />
+		<property name="fileChangedReloadingStrategy" ref="reloadingStrategy" />
+	</bean>
+
+	<bean id="OMSJndiTemplate" class="com.practia.oms.jndi.OMSJndiTemplate">
+	</bean>
+
+	<!-- Strategy for reloading the properties if any change exist -->
+	<bean id="reloadingStrategy"
+		class="org.apache.commons.configuration.reloading.FileChangedReloadingStrategy">
+		<property name="refreshDelay" value="60000" />
+	</bean>
+
+	<bean id="propertiesConfiguration"
+		class="org.apache.commons.configuration.PropertiesConfiguration">
+		<constructor-arg>
+			<value>file:///#{systemProperties._OMS_WEB_SERVICES_CONFIG}
+			</value>
+		</constructor-arg>
+	</bean>
+
+	<bean id="propertyConfigurer"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="location">
+			<value>file:///#{systemProperties._OMS_WEB_SERVICES_CONFIG}
+			</value>
+		</property>
+		<property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE" />
+	</bean>
+	
+	<bean id="ASM3User" class="com.practia.asm.core.user.ASM3User">
+		<property name="configuration" ref="credentialsProperties" />
+	</bean>
+	
+	<bean id="ticketManagerImpl" class="com.practia.asm.core.user.ticket.manager.impl.ASM3TicketManagerImpl">
+		<property name="ASM3LoginServices" ref="ASM3LoginServices" />
+		<property name="configuration" ref="loginServicesProperties" />
+		<property name="webContextRoot" ref="omsKey" />
+	</bean>
+
+	<util:constant id="oms" static-field="com.practia.asm.core.user.context.ContextRoot.OMS" />
+	<bean id="omsKey" factory-bean="oms" factory-method="value" />
+	
+	<bean id="ASM3UserServices" class="com.practia.asm.core.user.services.ASM3UserServices">
+		<property name="asm3User" ref="ASM3User" />
+		<property name="webContextRoot" ref="omsKey" />
+	</bean>
+
+	<!-- enviroment map reference -->
+	<bean id="commonConfigurationProperties" class="com.practia.asm.core.configuration.properties.CommonConfigurationProperties">
+		<property name="configuration" ref="propertiesConfiguration" />
+		<property name="fileChangedReloadingStrategy" ref="reloadingStrategy" />
+	</bean>
+
+	<bean id="ticketProperties" class="com.practia.asm.core.configuration.properties.TicketProperties">
+		<property name="configuration" ref="propertiesConfiguration" />
+		<property name="fileChangedReloadingStrategy" ref="reloadingStrategy" />
+	</bean>
+
+	<bean id="credentialsProperties" class="com.practia.asm.core.configuration.properties.CredentialsProperties">
+		<property name="configuration" ref="propertiesConfiguration" />
+		<property name="fileChangedReloadingStrategy" ref="reloadingStrategy" />
+	</bean>
+	
+	<bean id="loginServicesProperties" class="com.practia.asm.core.configuration.properties.LoginServicesProperties">
+		<property name="configuration" ref="propertiesConfiguration" />
+		<property name="fileChangedReloadingStrategy" ref="reloadingStrategy" />
+	</bean>
+	
+	<bean id="ticketEnvironment" class="com.practia.asm.core.enviroment.impl.TicketEnvironment">
+		<property name="configuration" ref="ticketProperties" />
+		<property name="ASM3UserServices" ref="ASM3UserServices" />
+		
+	</bean>
+
+	<bean id="credentialsEnvironment" class="com.practia.asm.core.enviroment.impl.CredentialsEnvironment">
+		<property name="configuration" ref="credentialsProperties" />
+		<property name="userServices" ref="ASM3UserServices" />
+	</bean>
+
+	<util:map id="environmentMap" map-class="java.util.concurrent.ConcurrentHashMap">
+		<entry key="credentials" value-ref="credentialsEnvironment" />
+		<entry key="ticket" value-ref="ticketEnvironment" />
+	</util:map>
+
+	<bean id="connectionServices"
+		class="com.practia.asm.core.connection.services.impl.ConnectionServicesImpl">
+		<property name="configuration" ref="commonConfigurationProperties" />
+		<property name="environmentServices" ref="environmentMap" />
+	</bean>
+
+	<bean id="ASM3PropertiesConfiguration"
+		class="com.practia.asm.core.configuration.ApplicationProperties">
+		<property name="configuration" ref="propertiesConfiguration" />
+		<property name="fileChangedReloadingStrategy" ref="reloadingStrategy" />
+	</bean>
+
+	<bean id="jobFactoryBean"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean"
+		p:targetObject-ref="ticketManagerImpl" p:targetMethod="relogin" />
+
+	<!-- triggered acording to cron expression
+	every minute = 	0 0/1 * 1/1 * ? *
+	every hour =   0 0 0/1 * * ?
+	-->
+	<bean id="triggerFactoryBean"
+		class="org.springframework.scheduling.quartz.CronTriggerFactoryBean"
+		p:jobDetail-ref="jobFactoryBean" 
+		p:cronExpression="0 0 0/23 1/1 * ? *"
+		/>
+<!-- p:startDelay="300000" 0 0 0/1 * * ?-->
+	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean"
+		p:triggers-ref="triggerFactoryBean" />
+
+	<wss:binding url="/ConsultServices">
+		<wss:service>
+			<ws:service bean="#ConsultServices" />
+		</wss:service>
+	</wss:binding>
+
+	<wss:binding url="/MobileAppsServices">
+		<wss:service>
+			<ws:service bean="#MobileAppsServices" />
+		</wss:service>
+	</wss:binding>
+
+	<bean id="ConsultServices" class="com.practia.oms.services.ConsultServices">
+		<property name="remote" ref="consultServicesRemote" />
+	</bean>
+	
+	<bean id="MobileAppsServices" class="com.practia.oms.services.MobileAppsServices">
+		<property name="remote" ref="mobileAppsServicesRemote" />
+		<property name="ASM3UserServices" ref="ASM3UserServices" />
+	</bean>
+</beans>

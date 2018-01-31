@@ -1,0 +1,6 @@
+RELEASE NOTES
+
+v - 1.1: Se agregan las implementaciones de los ser servicios ARBIRAccountServices, ARBIRPaymentServices
+ticket : https://pragmacesol.atlassian.net/browse/ACE-1
+n
+v - 1.0: kick off AMSS - EJB

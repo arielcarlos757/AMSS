@@ -1,0 +1,17 @@
+<?xml version = '1.0' encoding = 'windows-1252'?>
+<weblogic-ejb-jar xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.oracle.com/weblogic/weblogic-ejb-jar http://xmlns.oracle.com/weblogic/weblogic-ejb-jar/1.1/weblogic-ejb-jar.xsd"
+	xmlns="http://xmlns.oracle.com/weblogic/weblogic-ejb-jar">
+	<weblogic-enterprise-bean>
+		<ejb-name>ConsultServices_Mock</ejb-name>
+		<transaction-descriptor />
+		<enable-call-by-reference>true</enable-call-by-reference>
+		<jndi-name>/omsserver_weblogic/amdocs/oms/lightweight/consult</jndi-name>
+	</weblogic-enterprise-bean>
+	<weblogic-enterprise-bean>
+		<ejb-name>MobileAppsServices_Mock</ejb-name>
+		<transaction-descriptor />
+		<enable-call-by-reference>true</enable-call-by-reference>
+		<jndi-name>com.amdocs.services.mobileapps.MobileAppsServices</jndi-name>
+	</weblogic-enterprise-bean>
+</weblogic-ejb-jar>

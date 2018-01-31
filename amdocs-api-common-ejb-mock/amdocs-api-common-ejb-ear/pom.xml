@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<artifactId>amdocs-api-common-ejb</artifactId>
+		<groupId>com.practia</groupId>
+		<version>1.2.8-SNAPSHOT</version>
+	</parent>
+
+	<artifactId>amdocs-api-common-ejb-ear</artifactId>
+	<packaging>ear</packaging>
+
+	<name>amdocs-api-common-ejb-ear</name>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+	<scm>
+		<developerConnection>  
+			scm:svn:https://bob.practia.global/svn/ar_Amdocs_P_COMMONS/trunk/amdocs-web-services-layer/amdocs-api-common-ejb-mock/amdocs-api-common-ejb-ear/
+		</developerConnection>
+	</scm>
+	<build>
+		<resources>
+			<resource>
+				<filtering>true</filtering>
+				<directory>${basedir}/src/main/resources</directory>
+				<includes>
+					<include>**/maven.properties</include>
+				</includes>
+			</resource>
+			<resource>
+				<filtering>false</filtering>
+				<directory>${basedir}/src/main/resources</directory>
+				<excludes>
+					<exclude>**/maven.properties</exclude>
+				</excludes>
+			</resource>
+		</resources>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.3.2</version>
+				<configuration>
+					<source>1.6</source>
+					<target>1.6</target>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-ear-plugin</artifactId>
+				<version>2.6</version>
+				<configuration>
+					<version>6</version>
+					<defaultLibBundleDir>lib</defaultLibBundleDir>
+				</configuration>
+			</plugin>
+			<!-- This Plugin Includes artifacts for releasing -->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+				<version>3.0.0</version>
+				<executions>
+					<execution>
+						<id>attach-artifacts</id>
+						<phase>package</phase>
+						<goals>
+							<goal>attach-artifact</goal>
+						</goals>
+						<configuration>
+							<artifacts>
+								<artifact>
+									<file>src/test/resources/archiva_artifacts/releaseNote.txt</file>
+									<type>txt</type>
+									<classifier>releaseNote</classifier>
+								</artifact>
+								<artifact>
+									<file>src/test/resources/archiva_artifacts/installationNotes.txt</file>
+									<type>txt</type>
+									<classifier>installationNotes</classifier>
+								</artifact>
+							</artifacts>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<artifactId>maven-release-plugin</artifactId>
+				<configuration>
+					<scmCommentPrefix>Automatic Commit Made by Maven Plugin for SVN
+						tagging.</scmCommentPrefix>
+					<preparationGoals>clean install</preparationGoals>
+					<arguments> -DskipTests -Dargs="-DskipTests"</arguments>
+					<username>${svn.username}</username>
+					<password>${svn.password}</password>
+					<tagBase>
+						https://bob.practia.global/svn/ar_Amdocs_P_COMMONS/tags/amdocs-web-services-layer/amdocs-api-common-ejb-mock/amdocs-api-common-ejb-ear/
+					</tagBase>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+	
+	<dependencies>
+		<dependency>
+			<groupId>com.practia</groupId>
+			<artifactId>amdocs-api-common-ejb-abp</artifactId>
+			 <version>1.2.8-SNAPSHOT</version>
+			<type>ejb</type>
+		</dependency>
+		<dependency>
+			<groupId>com.practia</groupId>
+			<artifactId>amdocs-api-common-ejb-oms</artifactId>
+			 <version>1.2.8-SNAPSHOT</version>
+			<type>ejb</type>
+		</dependency>
+	</dependencies>
+	<repositories>
+		<repository>
+			<id>pragma.cache</id>
+			<url>http://amdocs.pragmaconsultores.net:9475/archiva/repository/repocache</url>
+		</repository>
+		<repository>
+			<id>pragma.releases</id>
+			<url>http://amdocs.pragmaconsultores.net:9475/archiva/repository/amdocs</url>
+		</repository>
+		<repository>
+			<id>java.net</id>
+			<url>http://download.java.net/maven/2</url>
+		</repository>
+		<repository>
+			<id>apache.common.comfiguration</id>
+			<url> https://mvnrepository.com/artifact/commons-configuration/commons-configuration </url>
+		</repository>
+
+		<repository>
+			<id>SpringSource Enterprise Bundle Repository - External Bundle
+                                Milestones</id>
+			<url>http://repository.springsource.com/maven/bundles/milestone</url>
+		</repository>
+		<repository>
+			<id>SpringSource Enterprise Bundle Repository - SpringSource Bundle
+                                Releases</id>
+			<url>http://repository.springsource.com/maven/bundles/release</url>
+		</repository>
+		<repository>
+			<id>SpringSource Enterprise Bundle Repository - External Bundle
+                                Releases</id>
+			<url>http://repository.springsource.com/maven/bundles/external</url>
+		</repository>
+		<repository>
+			<id>SpringSource Enterprise Bundle Repository - Library Milestones</id>
+			<url>http://repository.springsource.com/maven/libraries/milestone</url>
+		</repository>
+	</repositories>
+	<!-- Repositorio usado para publicar releases o snapshots -->
+	<distributionManagement>
+		<repository>
+			<id>pragma.releases</id>
+			<url>http://amdocs.pragmaconsultores.net:9475/archiva/repository/amdocs</url>
+		</repository>
+		
+<!-- 		<snapshotRepository> -->
+<!-- 			<id>pragma.snapshots</id> -->
+<!-- 			<url>http://amdocs.pragmaconsultores.net:9475/archiva/repository/snapamdocs</url> -->
+<!-- 		</snapshotRepository> -->
+	</distributionManagement>
+</project>

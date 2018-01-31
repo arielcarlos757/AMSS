@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<application version="6" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/application_6.xsd">
+  <!-- <display-name>C:\workspace_amdocs_web_services\amdocs-api-common-ejb\amdocs-api-common-ejb-ear</display-name> -->
+  <module>
+    <ejb>amdocs-api-common-ejb-abp-1.2.8-SNAPSHOT.jar</ejb>
+  </module>
+  <module>
+    <ejb>amdocs-api-common-ejb-oms-1.2.8-SNAPSHOT.jar</ejb>
+  </module>
+</application>

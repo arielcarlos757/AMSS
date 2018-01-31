@@ -1,0 +1,340 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<artifactId>amdocs-api-common-web-services</artifactId>
+		<groupId>com.practia</groupId>
+		<version>1.2.7-SNAPSHOT</version>
+	</parent>
+
+	<artifactId>amdocs-api-common-abp-ws</artifactId>
+	<name>amdocs-api-common-abp-ws</name>
+	<packaging>war</packaging>
+
+	<properties>
+		<endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
+		<quartz.version>2.2.1</quartz.version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<web-context-root>amdocs-api-common-abp-ws</web-context-root>
+		<spring.framework.version>4.0.1.RELEASE</spring.framework.version>
+		<packageUrl>com/practia</packageUrl>
+	</properties>
+
+
+	<dependencies>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.7</version>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- Javaee API -->
+		<dependency>
+			<groupId>javax</groupId>
+			<artifactId>javaee-web-api</artifactId>
+			<version>6.0</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<version>${spring.framework.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+			<version>${spring.framework.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context-support</artifactId>
+			<version>${spring.framework.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.sun.xml.ws</groupId>
+			<artifactId>jaxws-rt</artifactId>
+			<version>2.2.8</version>
+		</dependency>
+
+		<!-- <dependency> <groupId>javax.servlet</groupId> <artifactId>javax.servlet-api</artifactId> 
+			<version>3.3.0</version> <scope>provided</scope> </dependency> -->
+
+		<dependency>
+			<groupId>javax.ejb</groupId>
+			<artifactId>javax.ejb-api</artifactId>
+			<version>3.2</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- Library from java.net, integrate Spring with JAX-WS -->
+		<dependency>
+			<groupId>org.jvnet.jax-ws-commons.spring</groupId>
+			<artifactId>jaxws-spring</artifactId>
+			<version>1.9</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.springframework</groupId>
+					<artifactId>spring-core</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.springframework</groupId>
+					<artifactId>spring-context</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.sun.xml.stream.buffer</groupId>
+					<artifactId>streambuffer</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.jvnet.staxex</groupId>
+					<artifactId>stax-ex</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<!-- Apache common configuration used for reload the .properties -->
+		<dependency>
+			<groupId>commons-configuration</groupId>
+			<artifactId>commons-configuration</artifactId>
+			<version>1.6</version>
+		</dependency>
+		<!-- Quartz -->
+		<dependency>
+			<groupId>org.quartz-scheduler</groupId>
+			<artifactId>quartz</artifactId>
+			<version>${quartz.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.slf4j</groupId>
+					<artifactId>slf4j-api</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.1</version>
+		</dependency>
+		<!-- joda time -->
+		<dependency>
+			<groupId>joda-time</groupId>
+			<artifactId>joda-time</artifactId>
+			<version>2.9.9</version>
+		</dependency>
+		<!-- amdocs dependecies -->
+		<dependency>
+			<groupId>com.amdocs</groupId>
+			<artifactId>AmdocsCoreJar</artifactId>
+			<version>8.3.0.pb00</version>
+		</dependency>
+		<dependency>
+			<groupId>com.practia.ck</groupId>
+			<artifactId>gare_car3e_car9e_client_classes</artifactId>
+			<version>2.0</version>
+		</dependency>
+		<dependency>
+			<groupId>amdocs.cust.abp</groupId>
+			<artifactId>gcme_ccm3e_ccm9e_client_classes_1.6</artifactId>
+			<version>10.0.0-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>amdocs</groupId>
+			<artifactId>uams</artifactId>
+			<version>8.2.0.pb00_hf02</version>
+		</dependency>
+		<dependency>
+			<groupId>amdocs</groupId>
+			<artifactId>gjf_client_classes</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>com.amdocs.foundation.xps</groupId>
+			<artifactId>xps-core</artifactId>
+			<version>9.0.0.pb02_hf16</version>
+		</dependency>
+		<dependency>
+			<groupId>amdocs.bl3g</groupId>
+			<artifactId>gbl1e_client_classes</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
+		</dependency>
+<!--		<dependency>
+			<groupId>amdocs.uams.sessions</groupId>
+			<artifactId>casm3_classes</artifactId>
+			<version>1.0</version>
+		</dependency> -->
+		<dependency>
+			<groupId>org.pragma.amdocs.ck.asm</groupId>
+			<artifactId>ASM3LoginServicesBean</artifactId>
+			<version>1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.pragma.amdocs.ck.gcrossabp1e_client_classes_1.6</groupId>
+			<artifactId>amdocs.crossabp</artifactId>
+			<version>1.0</version>
+		</dependency>
+		<dependency> <!--wlfullclient Used only provided ->This is much like compile, but indicates 
+				you expect the JDK or a container to provide the dependency at runtime. For 
+				example, when building a web application for the Java Enterprise Edition, 
+				you would set the dependency on the Servlet API and related Java EE APIs 
+				to scope provided because the web container provides those classes. This 
+				scope is only available on the compilation and test classpath, and is not 
+				transitive. -->
+			<groupId>com.bea</groupId>
+			<artifactId>wlfullclient</artifactId>
+			<scope>provided</scope>
+			<version>10.3.6</version>
+		</dependency>
+		<!-- practia asm -->
+		 <dependency>
+			<groupId>com.practia</groupId>
+			<artifactId>amdocs-api-common-asm-ws</artifactId>
+			<version>2.0-20170926.144554-11</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-pool</groupId>
+			<artifactId>commons-pool</artifactId>
+			<version>1.6</version>
+		</dependency>
+		<!-- log4j -->
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-api</artifactId>
+			<version>2.4</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-core</artifactId>
+			<version>2.4</version>
+		</dependency>
+
+	</dependencies>
+
+	<build>
+		<finalName>amdocs-api-common-abp-ws-${version}</finalName>
+		<plugins>
+			<!-- <plugin> <groupId>com.oracle.weblogic</groupId> <artifactId>wls-maven-plugin</artifactId> 
+				<version>12.1.1.0</version> <configuration> <adminurl>t3://localhost:7101</adminurl> 
+				<user>weblogic</user> <password>welcome1</password> <upload>true</upload> 
+				<action>deploy</action> <remote>false</remote> <verbose>true</verbose> <source>${project.build.directory}/${project.build.finalName}.${project.packaging}</source> 
+				<name>${project.build.finalName}</name> </configuration> <executions> <execution> 
+				<phase>install</phase> <goals> <goal>deploy</goal> </goals> </execution> 
+				</executions> </plugin> -->			<!-- Eclipse project -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-eclipse-plugin</artifactId>
+				<version>2.9</version>
+				<configuration>
+					<!-- Always download and attach dependencies source code -->
+					<downloadSources>true</downloadSources>
+					<downloadJavadocs>false</downloadJavadocs>
+					<!-- Avoid type mvn eclipse:eclipse -Dwtpversion=2.0 -->
+					<wtpversion>2.0</wtpversion>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.3.2</version>
+				<configuration>
+					<source>1.7</source>
+					<target>1.7</target>
+					<showDeprecation>true</showDeprecation>
+					<showWarnings>true</showWarnings>
+<!-- <executable>C:\Program Files\Java\jdk1.7.0_151\bin\javac</executable> -->
+					<fork>true</fork>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>2.1.1</version>
+				<configuration>
+					<!--Use the created web.xml -->
+					<failOnMissingWebXml>false</failOnMissingWebXml>
+					<!--Create the war file based on the resources created by ws-jwsc goal -->
+					<webappDirectory>${basedir}/target/generated-${project.artifactId}</webappDirectory>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<version>2.1</version>
+				<executions>
+					<execution>
+						<phase>validate</phase>
+						<goals>
+							<goal>copy</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${endorsed.dir}</outputDirectory>
+							<silent>true</silent>
+							<artifactItems>
+								<artifactItem>
+									<groupId>javax</groupId>
+									<artifactId>javaee-endorsed-api</artifactId>
+									<version>6.0</version>
+									<type>jar</type>
+								</artifactItem>
+							</artifactItems>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+	<!-- Repositorio usado para descarga de dependencias -->
+	<repositories>
+		<repository>
+			<id>pragma.cache</id>
+			<url>http://amdocs.pragmaconsultores.net:9475/archiva/repository/repocache</url>
+		</repository>
+		<repository>
+			<id>pragma.releases</id>
+			<url>http://amdocs.pragmaconsultores.net:9475/archiva/repository/amdocs</url>
+		</repository>
+		<repository>
+			<id>java.net</id>
+			<url>http://download.java.net/maven/2</url>
+		</repository>
+		<repository>
+			<id>apache.common.comfiguration</id>
+			<url> https://mvnrepository.com/artifact/commons-configuration/commons-configuration </url>
+		</repository>
+
+		<repository>
+			<id>SpringSource Enterprise Bundle Repository - External Bundle
+					Milestones</id>
+			<url>http://repository.springsource.com/maven/bundles/milestone</url>
+		</repository>
+		<repository>
+			<id>SpringSource Enterprise Bundle Repository - SpringSource Bundle
+					Releases</id>
+			<url>http://repository.springsource.com/maven/bundles/release</url>
+		</repository>
+		<repository>
+			<id>SpringSource Enterprise Bundle Repository - External Bundle
+					Releases</id>
+			<url>http://repository.springsource.com/maven/bundles/external</url>
+		</repository>
+		<repository>
+			<id>SpringSource Enterprise Bundle Repository - Library Milestones</id>
+			<url>http://repository.springsource.com/maven/libraries/milestone</url>
+		</repository>
+	</repositories>
+	<!-- Repositorio usado para publicar releases o snapshots -->
+	<distributionManagement>
+		<repository>
+			<id>pragma.releases</id>
+			<url>http://amdocs.pragmaconsultores.net:9475/archiva/repository/amdocs</url>
+		</repository>
+
+		<snapshotRepository>
+			<id>pragma.snapshots</id>
+			<url>http://amdocs.pragmaconsultores.net:9475/archiva/repository/snapamdocs</url>
+		</snapshotRepository>
+	</distributionManagement>
+</project>

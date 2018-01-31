@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ejb-jar xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:ejb="http://xmlns.jcp.org/xml/ns/javaee"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/ejb-jar_2_1.xsd http://xmlns.jcp.org/xml/ns/javaee http://java.sun.com/xml/ns/javaee/ejb-jar_3_0.xsd"
+	id="ejb-jar_ID" version="2.1">
+	<display-name>amdocs-common-ws-oms-mocks</display-name>
+	<enterprise-beans>
+		<session>
+			<description>ConsultServices_Mock</description>
+			<display-name>ConsultServices_Mock</display-name>
+			<ejb-name>ConsultServices_Mock</ejb-name>
+			<home>com.amdocs.services.productdomain.lightweight.ejb.ConsultServicesHome</home>
+			<remote>com.amdocs.services.productdomain.lightweight.ejb.ConsultServices</remote>
+			<ejb-class>com.practia.oms.ConsultServicesBean</ejb-class>
+			<session-type>Stateless</session-type>
+			<transaction-type>Container</transaction-type>
+		</session>
+		<session>
+			<description>MobileAppsServices_Mock</description>
+			<display-name>MobileAppsServices_Mock</display-name>
+			<ejb-name>MobileAppsServices_Mock</ejb-name>
+			<home>com.amdocs.services.mobileapps.ejb.MobileAppsServicesHome</home>
+			<remote>com.amdocs.services.mobileapps.ejb.MobileAppsServices</remote>
+			<ejb-class>com.practia.oms.MobileAppsServicesBean</ejb-class>
+			<session-type>Stateless</session-type>
+			<transaction-type>Container</transaction-type>
+		</session>
+	</enterprise-beans>
+	<assembly-descriptor>
+		<container-transaction>
+			<method>
+				<ejb-name>ConsultServices_Mock</ejb-name>
+				<method-name>*</method-name>
+			</method>
+			<trans-attribute>Supports</trans-attribute>
+		</container-transaction>
+				<container-transaction>
+			<method>
+				<ejb-name>MobileAppsServices_Mock</ejb-name>
+				<method-name>*</method-name>
+			</method>
+			<trans-attribute>Supports</trans-attribute>
+		</container-transaction>
+	</assembly-descriptor>
+</ejb-jar>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.practia</groupId>
+  <artifactId>amdocs-api-common-web-services</artifactId>
+  <version>1.2.7-SNAPSHOT</version>
+  
+  <properties>
+		<parent.version>1.0.1</parent.version>
+  </properties>
+  
+  <packaging>pom</packaging>
+  <name>amdocs-api-common-web-services</name>
+  <modules>
+    <module>amdocs-api-common-web-services-ear</module>
+    <module>amdocs-api-common-abp-ws</module>
+	<module>amdocs-api-common-oms-ws</module>
+  </modules>
+</project>

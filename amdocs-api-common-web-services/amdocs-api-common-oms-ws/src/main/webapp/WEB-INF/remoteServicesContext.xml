@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+
+	<!-- ************ -->
+	<!-- OMS SERVICES -->
+	<!-- ************ -->
+	<bean id="consultServicesRemote" lazy-init="true"
+		class="com.practia.oms.ejb.access.WebLogicSimpleRemoteStatelessSessionProxyFactoryBean">
+		<property name="jndiName" value="${jndi.path.ConsultServices}" />
+		<property name="jndiTemplate" ref="OMSJndiTemplate" />
+		<property name="businessInterface"
+			value="com.amdocs.services.productdomain.lightweight.ejb.ConsultServices" />
+		<property name="homeInterface"
+			value="com.amdocs.services.productdomain.lightweight.ejb.ConsultServicesHome" />
+		<property name="cacheSessionBean" value="true" />
+		<property name="resourceRef" value="false" />
+		<property name="lookupHomeOnStartup" value="false" />
+		<property name="connectionServices" ref="connectionServices" />
+	</bean>
+	
+	<bean id="mobileAppsServicesRemote" lazy-init="true"
+		class="com.practia.oms.ejb.access.WebLogicSimpleRemoteStatelessSessionProxyFactoryBean">
+		<property name="jndiName" value="${jndi.path.MobileAppsServices}" />
+		<property name="jndiTemplate" ref="OMSJndiTemplate" />
+		<property name="businessInterface"
+			value="com.amdocs.services.mobileapps.ejb.MobileAppsServices" />
+		<property name="homeInterface"
+			value="com.amdocs.services.mobileapps.ejb.MobileAppsServicesHome" />
+		<property name="cacheSessionBean" value="true" />
+		<property name="resourceRef" value="false" />
+		<property name="lookupHomeOnStartup" value="false" />
+		<property name="connectionServices" ref="connectionServices" />
+	</bean>
+</beans>
